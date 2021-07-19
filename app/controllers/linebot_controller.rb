@@ -20,7 +20,7 @@ class LinebotController < ApplicationController
         when Line::Bot::Event::MessageType::Text
           # event.message['text']：ユーザーから送られたメッセージ
           input = event.message['text']
-          url  = "https://www.drk7.jp/weather/xml/28.xml"
+          url  = "https://www.drk7.jp/weather/xml/28.xml/"
           xml  = open( url ).read.toutf8
           doc = REXML::Document.new(xml)
           xpath = 'weatherforecast/pref/area[2]/'
@@ -35,7 +35,9 @@ class LinebotController < ApplicationController
             per18to24 = doc.elements[xpath + 'info[2]/rainfallchance/period[4]'].text
             if per06to12.to_i >= min_per || per12to18.to_i >= min_per || per18to24.to_i >= min_per
               push =
-                "明日の天気だよね。\n明日は雨が降りそうだよ(>_<)\n今のところ降水確率はこんな感じだよ。\n　  6〜12時　#{per06to12}％\n　12〜18時　 #{per12to18}％\n　18〜24時　#{per18to24}％\nまた明日の朝の最新の天気予報で雨が降りそうだったら教えるね！"
+                "明日の天気だよね。\n明日は雨が降りそうだよ(>_<)\n今のところ降水確率はこんな感じだよ。
+                \n6〜12時　#{per06to12}％\n12〜18時　 #{per12to18}％\n18〜24時　#{per18to24}％
+                \nまた明日の朝の最新の天気予報で雨が降りそうだったら教えるね！"
             else
               push =
                 "明日の天気？\n明日は雨が降らない予定だよ(^^)\nまた明日の朝の最新の天気予報で雨が降りそうだったら教えるね！"
@@ -67,7 +69,8 @@ class LinebotController < ApplicationController
                  "雨に負けずファイト！！",
                  "雨だけどあなたの明るさでみんなを元気にしてあげて(^^)"].sample
               push =
-                "今日の天気？\n今日は雨が降りそうだから傘があった方が安心だよ。\n　  6〜12時　#{per06to12}％\n　12〜18時　 #{per12to18}％\n　18〜24時　#{per18to24}％\n#{word}"
+                "今日の天気？\n今日は雨が降りそうだから傘があった方が安心だよ。\n
+                6〜12時　#{per06to12}％\n　12〜18時　 #{per12to18}％\n　18〜24時　#{per18to24}％\n#{word}"
             else
               word =
                 ["天気もいいから一駅歩いてみるのはどう？(^^)",
